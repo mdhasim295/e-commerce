@@ -1,0 +1,31 @@
+<main class="wishlist-page">
+  <p class="eyebrow">Saved for later</p>
+  <h1>Your wishlist<span>.</span></h1>
+  <section
+    class="wishlist-grid"
+    *ngIf="wishlistService.products$ | async as products"
+  >
+    <article class="wishlist-item" *ngFor="let product of products">
+      <a class="product-image" [routerLink]="['/product', product.id]"
+        ><img [src]="product.image" [alt]="product.name"
+      /></a>
+      <div class="item-info">
+        <div>
+          <p>{{ product.category }}</p>
+          <h2>
+            <a [routerLink]="['/product', product.id]">{{ product.name }}</a>
+          </h2>
+        </div>
+        <strong>${{ product.price }}</strong>
+      </div>
+      <div class="item-actions">
+        <button (click)="addToCart(product)">Add to bag</button
+        ><button (click)="remove(product)">Remove</button>
+      </div>
+    </article>
+  </section>
+  <section class="empty-wishlist" *ngIf="wishlistService.getCount() === 0">
+    <p>You haven't saved any pieces yet.</p>
+    <a routerLink="/">Explore the collection &#8594;</a>
+  </section>
+</main>

@@ -2,8 +2,21 @@
   <a routerLink="/" class="brand">morrow<span>®</span></a>
   <nav aria-label="Main navigation">
     <a routerLink="/">Collection</a>
-    <a routerLink="/cart" class="bag-link">Bag <span class="bag-count" *ngIf="cartService.getItemCount() > 0">{{ cartService.getItemCount() }}</span></a>
+    <a routerLink="/wishlist"
+      >Saved
+      <span class="saved-count" *ngIf="wishlistService.getCount() > 0">{{
+        wishlistService.getCount()
+      }}</span></a
+    >
+    <a routerLink="/cart" class="bag-link"
+      >Bag
+      <span class="bag-count" *ngIf="cartService.getItemCount() > 0">{{
+        cartService.getItemCount()
+      }}</span></a
+    >
   </nav>
 </header>
 <router-outlet></router-outlet>
-<footer class="site-footer"><span>Objects for a life well lived.</span><span>© 2026 morrow</span></footer>
+<footer class="site-footer">
+  <span>Objects for a life well lived.</span><span>© 2026 morrow</span>
+</footer>

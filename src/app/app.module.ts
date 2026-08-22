@@ -10,6 +10,7 @@ import { ProductDetailComponent } from './products/product-detail.component';
 import { ProductListComponent } from './products/product-list.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { OrderConfirmationComponent } from './order-confirmation/order-confirmat
     CartComponent,
     CheckoutComponent,
     OrderConfirmationComponent,
+    WishlistComponent,
   ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
   providers: [],

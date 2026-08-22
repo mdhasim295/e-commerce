@@ -27,6 +27,15 @@
       />
       <span aria-hidden="true">&#8599;</span>
     </label>
+    <label class="sort-box"
+      ><span>Sort</span
+      ><select [(ngModel)]="sortOption">
+        <option value="featured">Featured</option>
+        <option value="price-low">Price: low to high</option>
+        <option value="price-high">Price: high to low</option>
+        <option value="rating">Top rated</option>
+      </select></label
+    >
   </section>
 
   <section class="product-grid" aria-live="polite">
@@ -34,6 +43,21 @@
       <a class="product-image" [routerLink]="['/product', product.id]">
         <img [src]="product.image" [alt]="product.name" />
         <span class="view-label">View piece</span>
+        <button
+          class="favorite-button"
+          (click)="
+            $event.preventDefault();
+            $event.stopPropagation();
+            toggleWishlist(product)
+          "
+          [attr.aria-label]="
+            wishlistService.has(product.id)
+              ? 'Remove from wishlist'
+              : 'Add to wishlist'
+          "
+        >
+          {{ wishlistService.has(product.id) ? "&#9829;" : "&#9825;" }}
+        </button>
       </a>
       <div class="product-info">
         <div>

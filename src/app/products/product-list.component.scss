@@ -75,6 +75,21 @@ h1 em {
   padding: 6px 0;
   width: 100%;
 }
+.sort-box {
+  align-items: center;
+  color: #7a847e;
+  display: flex;
+  font-size: 12px;
+  gap: 8px;
+  margin-left: auto;
+}
+.sort-box select {
+  background: transparent;
+  border: 0;
+  color: #18352d;
+  font: inherit;
+  outline: 0;
+}
 .product-grid {
   display: grid;
   gap: 44px 24px;
@@ -112,6 +127,19 @@ h1 em {
 .product-image:hover .view-label {
   opacity: 1;
   transform: translateY(0);
+}
+.favorite-button {
+  background: #f7f6f1;
+  border: 0;
+  color: #b05b3b;
+  cursor: pointer;
+  font-size: 23px;
+  height: 38px;
+  line-height: 1;
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  width: 38px;
 }
 .product-info {
   align-items: flex-start;
@@ -179,6 +207,10 @@ h2 a {
     gap: 18px;
   }
   .search-box {
+    width: 100%;
+  }
+  .sort-box {
+    margin-left: 0;
     width: 100%;
   }
   .product-grid {

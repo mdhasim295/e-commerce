@@ -10,6 +10,13 @@
       <p class="eyebrow">{{ product.category }}</p>
       <h1>{{ product.name }}</h1>
       <p class="detail-price">${{ product.price }}</p>
+      <button class="wishlist-button" (click)="toggleWishlist()">
+        {{
+          wishlistService.has(product.id)
+            ? "&#9829; Remove from wishlist"
+            : "&#9825; Save to wishlist"
+        }}
+      </button>
       <p class="description">{{ product.description }}</p>
       <div class="rating">
         &#9733; {{ product.rating }} <span>Thoughtfully reviewed</span>

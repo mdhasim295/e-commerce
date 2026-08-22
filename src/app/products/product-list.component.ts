@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductService } from './product.service';
 import { Product } from './product.model';
 import { CartService } from '../cart/cart.service';
+import { WishlistService } from '../wishlist/wishlist.service';
 
 @Component({
   selector: 'app-product-list',
@@ -14,10 +15,12 @@ export class ProductListComponent {
   searchTerm = '';
   selectedCategory = 'All';
   addedProductId: number | null = null;
+  sortOption = 'featured';
 
   constructor(
     private readonly productService: ProductService,
     private readonly cartService: CartService,
+    public readonly wishlistService: WishlistService,
   ) {
     this.products = productService.getProducts();
     this.categories = productService.getCategories();
@@ -25,7 +28,7 @@ export class ProductListComponent {
 
   get filteredProducts(): Product[] {
     const term = this.searchTerm.trim().toLowerCase();
-    return this.products.filter((product) => {
+    const filtered = this.products.filter((product) => {
       const matchesCategory =
         this.selectedCategory === 'All' ||
         product.category === this.selectedCategory;
@@ -34,11 +37,21 @@ export class ProductListComponent {
         `${product.name} ${product.category}`.toLowerCase().includes(term);
       return matchesCategory && matchesSearch;
     });
+    return [...filtered].sort((first, second) => {
+      if (this.sortOption === 'price-low') return first.price - second.price;
+      if (this.sortOption === 'price-high') return second.price - first.price;
+      if (this.sortOption === 'rating') return second.rating - first.rating;
+      return first.id - second.id;
+    });
   }
 
   addToCart(product: Product): void {
     this.cartService.add(product);
     this.addedProductId = product.id;
     window.setTimeout(() => (this.addedProductId = null), 1200);
+  }
+
+  toggleWishlist(product: Product): void {
+    this.wishlistService.toggle(product);
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from './cart/cart.service';
+import { WishlistService } from './wishlist/wishlist.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,8 @@ import { CartService } from './cart/cart.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(public readonly cartService: CartService) {}
+  constructor(
+    public readonly cartService: CartService,
+    public readonly wishlistService: WishlistService,
+  ) {}
 }

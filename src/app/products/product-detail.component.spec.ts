@@ -5,6 +5,7 @@ import { CartService } from '../cart/cart.service';
 import { PRODUCTS } from './product.data';
 import { ProductDetailComponent } from './product-detail.component';
 import { ProductService } from './product.service';
+import { WishlistService } from '../wishlist/wishlist.service';
 
 describe('ProductDetailComponent', () => {
   let router: jasmine.SpyObj<Router>;
@@ -20,6 +21,7 @@ describe('ProductDetailComponent', () => {
       providers: [
         ProductService,
         CartService,
+        WishlistService,
         { provide: Router, useValue: router },
         {
           provide: ActivatedRoute,
@@ -59,6 +61,16 @@ describe('ProductDetailComponent', () => {
     component.goBack();
 
     expect(router.navigate).toHaveBeenCalledWith(['/']);
+  });
+
+  it('toggles the product wishlist state', async () => {
+    const component = await createComponent(String(PRODUCTS[0].id));
+
+    component.toggleWishlist();
+    expect(component.wishlistService.has(PRODUCTS[0].id)).toBeTrue();
+
+    component.toggleWishlist();
+    expect(component.wishlistService.has(PRODUCTS[0].id)).toBeFalse();
   });
 
   afterEach(() => {

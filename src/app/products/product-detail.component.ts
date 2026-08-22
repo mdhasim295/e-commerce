@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from './product.model';
 import { ProductService } from './product.service';
 import { CartService } from '../cart/cart.service';
+import { WishlistService } from '../wishlist/wishlist.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,6 +19,7 @@ export class ProductDetailComponent {
     private readonly productService: ProductService,
     private readonly cartService: CartService,
     private readonly router: Router,
+    public readonly wishlistService: WishlistService,
   ) {
     const id = Number(route.snapshot.paramMap.get('id'));
     this.product = productService.getProduct(id);
@@ -33,5 +35,9 @@ export class ProductDetailComponent {
 
   goBack(): void {
     this.router.navigate(['/']);
+  }
+
+  toggleWishlist(): void {
+    if (this.product) this.wishlistService.toggle(this.product);
   }
 }

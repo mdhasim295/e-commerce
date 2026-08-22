@@ -5,6 +5,7 @@ import { CartService } from '../cart/cart.service';
 import { PRODUCTS } from './product.data';
 import { ProductListComponent } from './product-list.component';
 import { ProductService } from './product.service';
+import { WishlistService } from '../wishlist/wishlist.service';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -15,7 +16,7 @@ describe('ProductListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule],
       declarations: [ProductListComponent],
-      providers: [ProductService, CartService],
+      providers: [ProductService, CartService, WishlistService],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProductListComponent);
@@ -45,6 +46,26 @@ describe('ProductListComponent', () => {
     component.searchTerm = 'not a real product';
 
     expect(component.filteredProducts).toEqual([]);
+  });
+
+  it('sorts products by price and rating', () => {
+    component.sortOption = 'price-low';
+    expect(component.filteredProducts[0].price).toBeLessThanOrEqual(
+      component.filteredProducts[1].price,
+    );
+
+    component.sortOption = 'rating';
+    expect(component.filteredProducts[0].rating).toBeGreaterThanOrEqual(
+      component.filteredProducts[1].rating,
+    );
+  });
+
+  it('toggles a product in the wishlist', () => {
+    component.toggleWishlist(PRODUCTS[0]);
+    expect(component.wishlistService.has(PRODUCTS[0].id)).toBeTrue();
+
+    component.toggleWishlist(PRODUCTS[0]);
+    expect(component.wishlistService.has(PRODUCTS[0].id)).toBeFalse();
   });
 
   it('adds a product to the cart and clears feedback after a moment', fakeAsync(() => {
