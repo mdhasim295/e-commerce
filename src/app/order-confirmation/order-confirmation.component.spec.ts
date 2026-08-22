@@ -10,6 +10,7 @@ describe('OrderConfirmationComponent', () => {
     const orderService = new OrderService();
     orderService.setOrder({
       number: 'MRW-123456',
+      createdAt: '2026-08-23T10:00:00.000Z',
       customerName: 'Hasim',
       email: 'hasim@example.com',
       address: '1 Market Street',

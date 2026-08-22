@@ -1,0 +1,34 @@
+<main class="orders-page">
+  <p class="eyebrow">Your journey with morrow</p>
+  <h1>Order history<span>.</span></h1>
+  <p class="buy-again-message" *ngIf="buyAgainMessage">{{ buyAgainMessage }}</p>
+  <section class="orders-list" *ngIf="orders.length; else noOrders">
+    <article class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <div>
+          <p>Order {{ order.number }}</p>
+          <span>{{ order.createdAt | date: "MMM d, y" }}</span>
+        </div>
+        <strong>${{ order.total }}</strong>
+      </div>
+      <div class="order-items">
+        <div *ngFor="let item of order.items">
+          <span>{{ item.product.name }} × {{ item.quantity }}</span
+          ><span>${{ item.product.price * item.quantity }}</span>
+        </div>
+      </div>
+      <div class="order-footer">
+        <span>{{ order.delivery }}</span
+        ><button (click)="buyAgain(order)">
+          Buy again <span>&#8594;</span>
+        </button>
+      </div>
+    </article>
+  </section>
+  <ng-template #noOrders
+    ><section class="empty-orders">
+      <p>Your completed orders will appear here.</p>
+      <a routerLink="/">Explore the collection &#8594;</a>
+    </section></ng-template
+  >
+</main>

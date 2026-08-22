@@ -6,6 +6,7 @@ import { ProductListComponent } from './products/product-list.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
   { path: '', component: ProductListComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'order-confirmation', component: OrderConfirmationComponent },
   { path: 'wishlist', component: WishlistComponent },
+  { path: 'orders', component: OrdersComponent },
   { path: '**', redirectTo: '' },
 ];
 

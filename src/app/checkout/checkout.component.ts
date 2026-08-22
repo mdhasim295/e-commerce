@@ -43,6 +43,7 @@ export class CheckoutComponent {
     const value = this.form.getRawValue();
     this.orderService.setOrder({
       number: `MRW-${Date.now().toString().slice(-6)}`,
+      createdAt: new Date().toISOString(),
       customerName: value.customerName || '',
       email: value.email || '',
       address: value.address || '',
