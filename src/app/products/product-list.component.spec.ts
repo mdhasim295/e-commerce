@@ -78,6 +78,16 @@ describe('ProductListComponent', () => {
     expect(component.addedProductId).toBeNull();
   }));
 
+  it('does not add an out-of-stock product', fakeAsync(() => {
+    component.addToCart(PRODUCTS[2]);
+
+    expect(cartService.getItemCount()).toBe(0);
+    expect(component.unavailableProductId).toBe(PRODUCTS[2].id);
+
+    tick(1200);
+    expect(component.unavailableProductId).toBeNull();
+  }));
+
   afterEach(() => {
     localStorage.removeItem('morrow-cart');
   });

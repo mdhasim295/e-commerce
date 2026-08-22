@@ -15,6 +15,7 @@ export class ProductListComponent {
   searchTerm = '';
   selectedCategory = 'All';
   addedProductId: number | null = null;
+  unavailableProductId: number | null = null;
   sortOption = 'featured';
 
   constructor(
@@ -46,7 +47,11 @@ export class ProductListComponent {
   }
 
   addToCart(product: Product): void {
-    this.cartService.add(product);
+    if (!this.cartService.add(product)) {
+      this.unavailableProductId = product.id;
+      window.setTimeout(() => (this.unavailableProductId = null), 1200);
+      return;
+    }
     this.addedProductId = product.id;
     window.setTimeout(() => (this.addedProductId = null), 1200);
   }

@@ -167,6 +167,14 @@ h2 a {
   font-size: 15px;
   margin: 21px 0 0 12px;
 }
+.stock-status {
+  color: #7a847e;
+  font-size: 11px;
+  margin: 0 0 9px;
+}
+.stock-status.out-of-stock {
+  color: #b05b3b;
+}
 .add-button {
   background: transparent;
   border: 1px solid #18352d;
@@ -181,6 +189,11 @@ h2 a {
 .add-button:hover {
   background: #18352d;
   color: #f7f6f1;
+}
+.add-button:disabled {
+  border-color: #cdd5cc;
+  color: #9aa69e;
+  cursor: not-allowed;
 }
 .no-results {
   color: #5f6c65;

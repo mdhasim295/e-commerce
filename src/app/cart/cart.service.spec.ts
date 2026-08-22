@@ -38,6 +38,19 @@ describe('CartService', () => {
     expect(service.getSubtotal()).toBe(firstProduct.price * 2);
   });
 
+  it('rejects out-of-stock products', () => {
+    expect(service.add(PRODUCTS[2])).toBeFalse();
+    expect(service.getItems()).toEqual([]);
+  });
+
+  it('does not allow quantity above available stock', () => {
+    service.add(firstProduct);
+
+    service.updateQuantity(firstProduct.id, firstProduct.stock + 5);
+
+    expect(service.getItems()[0].quantity).toBe(firstProduct.stock);
+  });
+
   it('calculates the subtotal for multiple products', () => {
     service.add(firstProduct);
     service.add(secondProduct);
@@ -116,6 +129,26 @@ describe('CartService', () => {
     const restoredService = new CartService();
 
     expect(restoredService.getItems()).toEqual([]);
-    expect(localStorage.getItem('morrow-cart')).toBeNull();
+    expect(localStorage.getItem('morrow-cart')).toBe('[]');
+  });
+
+  it('repairs stale cart items and invalid quantities on startup', () => {
+    localStorage.setItem(
+      'morrow-cart',
+      JSON.stringify([
+        { product: { id: firstProduct.id, name: 'Old name' }, quantity: 99 },
+        { product: { id: secondProduct.id }, quantity: 0 },
+        { product: { id: 999 }, quantity: 1 },
+      ]),
+    );
+
+    const restoredService = new CartService();
+
+    expect(restoredService.getItems()).toEqual([
+      { product: firstProduct, quantity: firstProduct.stock },
+    ]);
+    expect(restoredService.getSubtotal()).toBe(
+      firstProduct.price * firstProduct.stock,
+    );
   });
 });

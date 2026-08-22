@@ -68,8 +68,29 @@
         </div>
         <p class="price">${{ product.price }}</p>
       </div>
-      <button class="add-button" (click)="addToCart(product)">
-        {{ addedProductId === product.id ? "Added to bag" : "Add to bag" }}
+      <p class="stock-status" [class.out-of-stock]="product.stock === 0">
+        {{
+          product.stock === 0
+            ? "Out of stock"
+            : product.stock < 4
+              ? "Only " + product.stock + " left"
+              : "In stock"
+        }}
+      </p>
+      <button
+        class="add-button"
+        [disabled]="product.stock === 0"
+        (click)="addToCart(product)"
+      >
+        {{
+          product.stock === 0
+            ? "Unavailable"
+            : unavailableProductId === product.id
+              ? "Limit reached"
+              : addedProductId === product.id
+                ? "Added to bag"
+                : "Add to bag"
+        }}
       </button>
     </article>
   </section>

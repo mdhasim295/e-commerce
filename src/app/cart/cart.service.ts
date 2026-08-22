@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Product } from '../products/product.model';
+import { PRODUCTS } from '../products/product.data';
 
 export interface CartItem {
   product: Product;
@@ -10,22 +11,34 @@ export interface CartItem {
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private static readonly storageKey = 'morrow-cart';
-  private readonly itemsSubject = new BehaviorSubject<CartItem[]>(
-    this.loadItems(),
-  );
-  readonly items$ = this.itemsSubject.asObservable();
+  private readonly itemsSubject: BehaviorSubject<CartItem[]>;
+  readonly items$;
 
-  add(product: Product): void {
+  constructor() {
+    const items = this.loadItems();
+    this.itemsSubject = new BehaviorSubject<CartItem[]>(items);
+    this.items$ = this.itemsSubject.asObservable();
+    this.saveItems(items);
+  }
+
+  add(product: Product): boolean {
     const items = this.itemsSubject.value;
     const existing = items.find((item) => item.product.id === product.id);
 
     if (existing) {
+      if (existing.quantity >= product.stock) {
+        return false;
+      }
       existing.quantity += 1;
       this.setItems(items);
-      return;
+      return true;
     }
 
+    if (product.stock < 1) {
+      return false;
+    }
     this.setItems([...items, { product, quantity: 1 }]);
+    return true;
   }
 
   updateQuantity(productId: number, quantity: number): void {
@@ -36,7 +49,9 @@ export class CartService {
 
     this.setItems(
       this.itemsSubject.value.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item,
+        item.product.id === productId
+          ? { ...item, quantity: Math.min(quantity, item.product.stock) }
+          : item,
       ),
     );
   }
@@ -88,8 +103,31 @@ export class CartService {
     }
 
     try {
-      const items = JSON.parse(savedItems) as CartItem[];
-      return Array.isArray(items) ? items : [];
+      const items = JSON.parse(savedItems) as unknown;
+      if (!Array.isArray(items)) {
+        return [];
+      }
+
+      return items.reduce<CartItem[]>((validItems, item: unknown) => {
+        if (!this.isCartItem(item)) {
+          return validItems;
+        }
+
+        const product = PRODUCTS.find(
+          (catalogProduct) => catalogProduct.id === item.product.id,
+        );
+        const quantity = Math.floor(item.quantity);
+
+        if (!product || product.stock < 1 || quantity < 1) {
+          return validItems;
+        }
+
+        validItems.push({
+          product,
+          quantity: Math.min(quantity, product.stock),
+        });
+        return validItems;
+      }, []);
     } catch {
       try {
         window.localStorage.removeItem(CartService.storageKey);
@@ -105,5 +143,19 @@ export class CartService {
         JSON.stringify(items),
       );
     } catch {}
+  }
+
+  private isCartItem(item: unknown): item is CartItem {
+    if (!item || typeof item !== 'object') {
+      return false;
+    }
+
+    const candidate = item as Partial<CartItem>;
+    return (
+      !!candidate.product &&
+      typeof candidate.product === 'object' &&
+      Number.isFinite(candidate.product.id) &&
+      Number.isFinite(candidate.quantity)
+    );
   }
 }

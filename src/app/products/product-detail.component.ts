@@ -13,6 +13,7 @@ import { WishlistService } from '../wishlist/wishlist.service';
 export class ProductDetailComponent {
   product: Product | undefined;
   added = false;
+  unavailable = false;
 
   constructor(
     route: ActivatedRoute,
@@ -29,8 +30,8 @@ export class ProductDetailComponent {
     if (!this.product) {
       return;
     }
-    this.cartService.add(this.product);
-    this.added = true;
+    this.added = this.cartService.add(this.product);
+    this.unavailable = !this.added;
   }
 
   goBack(): void {

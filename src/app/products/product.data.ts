@@ -7,6 +7,7 @@ export const PRODUCTS: Product[] = [
     category: 'Home',
     price: 64,
     rating: 4.8,
+    stock: 4,
     description:
       'A warm, sculptural lamp with a linen shade for desks, consoles, and quiet corners.',
     image:
@@ -18,6 +19,7 @@ export const PRODUCTS: Product[] = [
     category: 'Accessories',
     price: 38,
     rating: 4.7,
+    stock: 8,
     description:
       'A durable cotton canvas tote with generous room for everyday essentials.',
     image:
@@ -29,6 +31,7 @@ export const PRODUCTS: Product[] = [
     category: 'Kitchen',
     price: 42,
     rating: 4.9,
+    stock: 0,
     description:
       'Hand-finished stoneware designed for a calm, balanced morning brew.',
     image:
@@ -40,6 +43,7 @@ export const PRODUCTS: Product[] = [
     category: 'Home',
     price: 88,
     rating: 4.6,
+    stock: 3,
     description:
       'A soft textured throw in a grounded moss tone, made for slow evenings.',
     image:
@@ -51,6 +55,7 @@ export const PRODUCTS: Product[] = [
     category: 'Accessories',
     price: 29,
     rating: 4.8,
+    stock: 6,
     description:
       'A double-wall steel bottle that keeps drinks cool from commute to weekend trail.',
     image:
@@ -62,6 +67,7 @@ export const PRODUCTS: Product[] = [
     category: 'Wellness',
     price: 24,
     rating: 4.5,
+    stock: 10,
     description:
       'A crisp cedar and citrus mist that gives a room a fresh reset.',
     image:

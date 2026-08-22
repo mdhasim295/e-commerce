@@ -48,6 +48,13 @@ h1 {
   color: #18352d;
   font-size: 18px;
 }
+.stock-status {
+  color: #7a847e;
+  font-size: 12px;
+}
+.stock-status.out-of-stock {
+  color: #b05b3b;
+}
 .wishlist-button {
   background: transparent;
   border: 0;
