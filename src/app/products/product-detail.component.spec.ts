@@ -60,4 +60,8 @@ describe('ProductDetailComponent', () => {
 
     expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
+
+  afterEach(() => {
+    localStorage.removeItem('morrow-cart');
+  });
 });

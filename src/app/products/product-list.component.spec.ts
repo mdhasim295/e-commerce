@@ -11,6 +11,7 @@ describe('ProductListComponent', () => {
   let cartService: CartService;
 
   beforeEach(async () => {
+    localStorage.removeItem('morrow-cart');
     await TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule],
       declarations: [ProductListComponent],
@@ -55,4 +56,8 @@ describe('ProductListComponent', () => {
     tick(1200);
     expect(component.addedProductId).toBeNull();
   }));
+
+  afterEach(() => {
+    localStorage.removeItem('morrow-cart');
+  });
 });

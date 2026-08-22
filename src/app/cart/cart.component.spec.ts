@@ -10,6 +10,7 @@ describe('CartComponent', () => {
   let cartService: CartService;
 
   beforeEach(async () => {
+    localStorage.removeItem('morrow-cart');
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [CartComponent],
@@ -37,5 +38,9 @@ describe('CartComponent', () => {
     expect(fixture.nativeElement.textContent).toContain(
       `$${PRODUCTS[0].price}`,
     );
+  });
+
+  afterEach(() => {
+    localStorage.removeItem('morrow-cart');
   });
 });

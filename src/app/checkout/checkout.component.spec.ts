@@ -71,4 +71,8 @@ describe('CheckoutComponent', () => {
     expect(cartService.getItemCount()).toBe(0);
     expect(router.navigate).toHaveBeenCalledWith(['/order-confirmation']);
   });
+
+  afterEach(() => {
+    localStorage.removeItem('morrow-cart');
+  });
 });

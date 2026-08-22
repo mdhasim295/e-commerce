@@ -7,7 +7,12 @@ describe('CartService', () => {
   const secondProduct = PRODUCTS[1];
 
   beforeEach(() => {
+    localStorage.removeItem('morrow-cart');
     service = new CartService();
+  });
+
+  afterEach(() => {
+    localStorage.removeItem('morrow-cart');
   });
 
   it('starts with an empty cart', () => {
@@ -73,5 +78,44 @@ describe('CartService', () => {
 
     expect(service.getItems()).toEqual([]);
     expect(service.getItemCount()).toBe(0);
+  });
+
+  it('persists cart changes and restores them in a new service instance', () => {
+    service.add(firstProduct);
+    service.updateQuantity(firstProduct.id, 3);
+
+    const restoredService = new CartService();
+
+    expect(restoredService.getItems()).toEqual([
+      { product: firstProduct, quantity: 3 },
+    ]);
+  });
+
+  it('stores the current cart as JSON after changes', () => {
+    service.add(firstProduct);
+    service.updateQuantity(firstProduct.id, 2);
+    service.remove(firstProduct.id);
+    service.add(secondProduct);
+
+    expect(JSON.parse(localStorage.getItem('morrow-cart') || 'null')).toEqual([
+      { product: secondProduct, quantity: 1 },
+    ]);
+  });
+
+  it('removes persisted items when the cart is cleared', () => {
+    service.add(firstProduct);
+
+    service.clear();
+
+    expect(localStorage.getItem('morrow-cart')).toBe('[]');
+  });
+
+  it('ignores malformed persisted cart data', () => {
+    localStorage.setItem('morrow-cart', '{invalid json');
+
+    const restoredService = new CartService();
+
+    expect(restoredService.getItems()).toEqual([]);
+    expect(localStorage.getItem('morrow-cart')).toBeNull();
   });
 });
