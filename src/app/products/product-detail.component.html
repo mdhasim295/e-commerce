@@ -1,0 +1,31 @@
+<main class="detail-page" *ngIf="product; else missingProduct">
+  <button class="back-button" (click)="goBack()">
+    &#8592; Back to collection
+  </button>
+  <section class="detail-layout">
+    <div class="detail-image">
+      <img [src]="product.image" [alt]="product.name" />
+    </div>
+    <div class="detail-copy">
+      <p class="eyebrow">{{ product.category }}</p>
+      <h1>{{ product.name }}</h1>
+      <p class="detail-price">${{ product.price }}</p>
+      <p class="description">{{ product.description }}</p>
+      <div class="rating">
+        &#9733; {{ product.rating }} <span>Thoughtfully reviewed</span>
+      </div>
+      <button class="add-button" (click)="addToCart()">
+        {{ added ? "Added to bag" : "Add to bag" }}
+      </button>
+      <a routerLink="/cart" class="cart-link" *ngIf="added"
+        >View your bag &#8594;</a
+      >
+    </div>
+  </section>
+</main>
+<ng-template #missingProduct>
+  <main class="missing">
+    <h1>That piece has moved on.</h1>
+    <a routerLink="/">Return to collection</a>
+  </main>
+</ng-template>

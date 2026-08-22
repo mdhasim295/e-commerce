@@ -1,0 +1,37 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Product } from './product.model';
+import { ProductService } from './product.service';
+import { CartService } from '../cart/cart.service';
+
+@Component({
+  selector: 'app-product-detail',
+  templateUrl: './product-detail.component.html',
+  styleUrls: ['./product-detail.component.scss'],
+})
+export class ProductDetailComponent {
+  product: Product | undefined;
+  added = false;
+
+  constructor(
+    route: ActivatedRoute,
+    private readonly productService: ProductService,
+    private readonly cartService: CartService,
+    private readonly router: Router,
+  ) {
+    const id = Number(route.snapshot.paramMap.get('id'));
+    this.product = productService.getProduct(id);
+  }
+
+  addToCart(): void {
+    if (!this.product) {
+      return;
+    }
+    this.cartService.add(this.product);
+    this.added = true;
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
+}

@@ -1,0 +1,56 @@
+<main class="catalog-page">
+  <section class="catalog-intro">
+    <p class="eyebrow">Thoughtful things, well made</p>
+    <h1>Good goods for<br /><em>everyday living.</em></h1>
+    <p class="intro-copy">
+      A considered collection of objects that bring a little more ease, texture,
+      and joy to your daily rituals.
+    </p>
+  </section>
+
+  <section class="catalog-controls" aria-label="Product filters">
+    <div class="category-list">
+      <button
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category"
+        (click)="selectedCategory = category"
+      >
+        {{ category }}
+      </button>
+    </div>
+    <label class="search-box">
+      <span class="sr-only">Search products</span>
+      <input
+        [(ngModel)]="searchTerm"
+        type="search"
+        placeholder="Search the collection"
+      />
+      <span aria-hidden="true">&#8599;</span>
+    </label>
+  </section>
+
+  <section class="product-grid" aria-live="polite">
+    <article class="product-card" *ngFor="let product of filteredProducts">
+      <a class="product-image" [routerLink]="['/product', product.id]">
+        <img [src]="product.image" [alt]="product.name" />
+        <span class="view-label">View piece</span>
+      </a>
+      <div class="product-info">
+        <div>
+          <p class="product-category">{{ product.category }}</p>
+          <h2>
+            <a [routerLink]="['/product', product.id]">{{ product.name }}</a>
+          </h2>
+        </div>
+        <p class="price">${{ product.price }}</p>
+      </div>
+      <button class="add-button" (click)="addToCart(product)">
+        {{ addedProductId === product.id ? "Added to bag" : "Add to bag" }}
+      </button>
+    </article>
+  </section>
+
+  <p class="no-results" *ngIf="filteredProducts.length === 0">
+    No pieces match that search.
+  </p>
+</main>
