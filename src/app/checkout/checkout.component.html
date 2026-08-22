@@ -1,0 +1,78 @@
+<main class="checkout-page">
+  <button class="back-button" routerLink="/cart">&#8592; Back to bag</button>
+  <p class="eyebrow">Almost yours</p>
+  <h1>Complete your<br /><em>order.</em></h1>
+  <section class="checkout-layout">
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <h2>Contact details</h2>
+      <label
+        >Full name
+        <input formControlName="customerName" placeholder="Your name"
+      /></label>
+      <small
+        *ngIf="
+          form.controls.customerName.touched &&
+          form.controls.customerName.invalid
+        "
+        >Please enter your name.</small
+      >
+      <label
+        >Email address
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+      /></label>
+      <small *ngIf="form.controls.email.touched && form.controls.email.invalid"
+        >Please enter a valid email.</small
+      >
+      <h2>Delivery address</h2>
+      <label
+        >Address
+        <input formControlName="address" placeholder="Street and number"
+      /></label>
+      <small
+        *ngIf="form.controls.address.touched && form.controls.address.invalid"
+        >Please enter your address.</small
+      >
+      <div class="form-row">
+        <label>City <input formControlName="city" /></label
+        ><label>Postal code <input formControlName="postalCode" /></label>
+      </div>
+      <small *ngIf="form.controls.city.touched && form.controls.city.invalid"
+        >Please enter your city.</small
+      >
+      <h2>Delivery method</h2>
+      <label class="delivery-option"
+        ><input
+          type="radio"
+          formControlName="delivery"
+          value="Standard delivery"
+        />
+        Standard delivery <span>Complimentary</span></label
+      >
+      <label class="delivery-option"
+        ><input
+          type="radio"
+          formControlName="delivery"
+          value="Express delivery"
+        />
+        Express delivery <span>$12</span></label
+      >
+      <button class="place-order" type="submit">
+        Place order <span>&#8594;</span>
+      </button>
+    </form>
+    <aside class="summary">
+      <h2>Your order</h2>
+      <div *ngFor="let item of cartService.items$ | async">
+        <span>{{ item.product.name }} × {{ item.quantity }}</span
+        ><strong>${{ item.product.price * item.quantity }}</strong>
+      </div>
+      <hr />
+      <div class="total">
+        <span>Total</span><strong>${{ cartService.getSubtotal() }}</strong>
+      </div>
+    </aside>
+  </section>
+</main>

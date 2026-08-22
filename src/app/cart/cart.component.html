@@ -49,7 +49,9 @@
       <div class="total">
         <span>Total</span><strong>${{ cartService.getSubtotal() }}</strong>
       </div>
-      <button class="checkout-button">Continue to checkout</button>
+      <button class="checkout-button" routerLink="/checkout">
+        Continue to checkout
+      </button>
       <a routerLink="/">Continue shopping <span>&#8594;</span></a>
     </aside>
   </section>

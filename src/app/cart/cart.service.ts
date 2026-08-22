@@ -44,6 +44,14 @@ export class CartService {
     );
   }
 
+  getItems(): CartItem[] {
+    return this.itemsSubject.value.map((item) => ({ ...item }));
+  }
+
+  clear(): void {
+    this.itemsSubject.next([]);
+  }
+
   getItemCount(): number {
     return this.itemsSubject.value.reduce(
       (total, item) => total + item.quantity,

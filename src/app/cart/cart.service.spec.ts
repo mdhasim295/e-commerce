@@ -61,4 +61,17 @@ describe('CartService', () => {
     expect(service.getItemCount()).toBe(1);
     expect(service.getSubtotal()).toBe(secondProduct.price);
   });
+
+  it('returns a cart snapshot and clears all items', () => {
+    service.add(firstProduct);
+
+    expect(service.getItems()).toEqual([
+      { product: firstProduct, quantity: 1 },
+    ]);
+
+    service.clear();
+
+    expect(service.getItems()).toEqual([]);
+    expect(service.getItemCount()).toBe(0);
+  });
 });

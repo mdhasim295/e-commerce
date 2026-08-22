@@ -1,0 +1,34 @@
+<main class="confirmation-page" *ngIf="order; else noOrder">
+  <p class="eyebrow">Thank you, {{ order.customerName }}</p>
+  <h1>Your order is<br /><em>on its way.</em></h1>
+  <p class="confirmation-copy">
+    We've sent your receipt to {{ order.email }}. We'll let you know when your
+    pieces leave our studio.
+  </p>
+  <section class="confirmation-details">
+    <div>
+      <span>Order number</span><strong>{{ order.number }}</strong>
+    </div>
+    <div>
+      <span>Delivering to</span
+      ><strong
+        >{{ order.address }}, {{ order.city }} {{ order.postalCode }}</strong
+      >
+    </div>
+    <div>
+      <span>Delivery</span><strong>{{ order.delivery }}</strong>
+    </div>
+    <div>
+      <span>Total</span><strong>${{ order.total }}</strong>
+    </div>
+  </section>
+  <button class="collection-button" (click)="returnToCollection()">
+    Continue shopping <span>&#8594;</span>
+  </button>
+</main>
+<ng-template #noOrder
+  ><main class="confirmation-page">
+    <h1>No recent order.</h1>
+    <a routerLink="/">Return to collection</a>
+  </main></ng-template
+>

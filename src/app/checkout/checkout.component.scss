@@ -1,0 +1,149 @@
+.checkout-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 42px 32px 100px;
+}
+.back-button {
+  background: none;
+  border: 0;
+  color: #5f6c65;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+.eyebrow {
+  color: #b05b3b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  margin-top: 55px;
+  text-transform: uppercase;
+}
+h1 {
+  color: #18352d;
+  font-family: Georgia, serif;
+  font-size: clamp(48px, 7vw, 86px);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.94;
+  margin: 15px 0 60px;
+}
+h1 em {
+  color: #b05b3b;
+}
+.checkout-layout {
+  display: grid;
+  gap: 80px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+}
+form {
+  max-width: 620px;
+}
+h2 {
+  color: #18352d;
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-weight: 400;
+  margin: 0 0 22px;
+}
+form h2:not(:first-child) {
+  border-top: 1px solid #d9ded8;
+  margin-top: 38px;
+  padding-top: 28px;
+}
+label {
+  color: #5f6c65;
+  display: block;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+input:not([type="radio"]) {
+  background: transparent;
+  border: 1px solid #cdd5cc;
+  color: #18352d;
+  display: block;
+  font: inherit;
+  margin-top: 7px;
+  outline: 0;
+  padding: 13px;
+  width: 100%;
+}
+input:focus {
+  border-color: #18352d;
+}
+small {
+  color: #b05b3b;
+  display: block;
+  font-size: 11px;
+  margin: -7px 0 12px;
+}
+.form-row {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+}
+.delivery-option {
+  border: 1px solid #cdd5cc;
+  padding: 15px;
+}
+.delivery-option input {
+  margin-right: 8px;
+}
+.delivery-option span {
+  float: right;
+}
+.place-order {
+  background: #18352d;
+  border: 0;
+  color: #f7f6f1;
+  cursor: pointer;
+  font: inherit;
+  margin-top: 25px;
+  padding: 15px 20px;
+  width: 100%;
+}
+.place-order span {
+  float: right;
+}
+.summary {
+  background: #e7ebe3;
+  height: max-content;
+  padding: 28px;
+}
+.summary h2 {
+  border-bottom: 1px solid #cdd5cc;
+  padding-bottom: 20px;
+}
+.summary > div {
+  color: #5f6c65;
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  padding: 11px 0;
+}
+.summary strong {
+  color: #18352d;
+  font-weight: 500;
+}
+.summary hr {
+  border: 0;
+  border-top: 1px solid #cdd5cc;
+}
+.summary .total {
+  font-size: 17px;
+  padding-top: 18px;
+}
+@media (max-width: 700px) {
+  .checkout-page {
+    padding: 32px 20px 70px;
+  }
+  .checkout-layout {
+    display: block;
+  }
+  .summary {
+    margin-top: 35px;
+  }
+  .form-row {
+    gap: 10px;
+  }
+}
