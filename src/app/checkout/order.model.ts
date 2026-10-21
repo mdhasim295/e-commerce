@@ -9,6 +9,8 @@ export interface Order {
   city: string;
   postalCode: string;
   delivery: string;
+  /** Optional to support orders saved before delivery pricing was added. */
+  deliveryCost?: number;
   items: CartItem[];
   total: number;
 }

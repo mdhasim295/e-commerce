@@ -10,6 +10,8 @@ import { OrderService } from './order.service';
   styleUrls: ['./checkout.component.scss'],
 })
 export class CheckoutComponent {
+  readonly expressDeliveryPrice = 12;
+
   readonly form = this.formBuilder.group({
     customerName: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
@@ -28,6 +30,16 @@ export class CheckoutComponent {
     private readonly orderService: OrderService,
     private readonly router: Router,
   ) {}
+
+  get deliveryCost(): number {
+    return this.form.controls.delivery.value === 'Express delivery'
+      ? this.expressDeliveryPrice
+      : 0;
+  }
+
+  get orderTotal(): number {
+    return this.cartService.getSubtotal() + this.deliveryCost;
+  }
 
   submit(): void {
     if (this.cartService.getItemCount() === 0) {
@@ -50,8 +62,9 @@ export class CheckoutComponent {
       city: value.city || '',
       postalCode: value.postalCode || '',
       delivery: value.delivery || 'Standard delivery',
+      deliveryCost: this.deliveryCost,
       items: this.cartService.getItems(),
-      total: this.cartService.getSubtotal(),
+      total: this.orderTotal,
     });
     this.cartService.clear();
     this.router.navigate(['/order-confirmation']);

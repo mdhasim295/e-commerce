@@ -19,6 +19,9 @@
       <span>Delivery</span><strong>{{ order.delivery }}</strong>
     </div>
     <div>
+      <span>Delivery cost</span><strong>${{ order.deliveryCost || 0 }}</strong>
+    </div>
+    <div>
       <span>Total</span><strong>${{ order.total }}</strong>
     </div>
   </section>

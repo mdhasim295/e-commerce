@@ -16,6 +16,9 @@
           <span>{{ item.product.name }} × {{ item.quantity }}</span
           ><span>${{ item.product.price * item.quantity }}</span>
         </div>
+        <div>
+          <span>Delivery</span><span>${{ order.deliveryCost || 0 }}</span>
+        </div>
       </div>
       <div class="order-footer">
         <span>{{ order.delivery }}</span

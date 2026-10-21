@@ -57,7 +57,7 @@
           formControlName="delivery"
           value="Express delivery"
         />
-        Express delivery <span>$12</span></label
+        Express delivery <span>${{ expressDeliveryPrice }}</span></label
       >
       <button class="place-order" type="submit">
         Place order <span>&#8594;</span>
@@ -69,9 +69,15 @@
         <span>{{ item.product.name }} × {{ item.quantity }}</span
         ><strong>${{ item.product.price * item.quantity }}</strong>
       </div>
+      <div>
+        <span>Subtotal</span><strong>${{ cartService.getSubtotal() }}</strong>
+      </div>
+      <div>
+        <span>Delivery</span><strong>${{ deliveryCost }}</strong>
+      </div>
       <hr />
       <div class="total">
-        <span>Total</span><strong>${{ cartService.getSubtotal() }}</strong>
+        <span>Total</span><strong>${{ orderTotal }}</strong>
       </div>
     </aside>
   </section>

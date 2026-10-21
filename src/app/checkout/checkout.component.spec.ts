@@ -67,12 +67,29 @@ describe('CheckoutComponent', () => {
 
     expect(orderService.getOrder()?.customerName).toBe('Hasim');
     expect(orderService.getOrder()?.items.length).toBe(1);
+    expect(orderService.getOrder()?.deliveryCost).toBe(0);
     expect(orderService.getOrder()?.total).toBe(PRODUCTS[0].price);
     expect(cartService.getItemCount()).toBe(0);
     expect(router.navigate).toHaveBeenCalledWith(['/order-confirmation']);
   });
 
+  it('adds express delivery to the order total', async () => {
+    const component = await createComponent();
+    cartService.add(PRODUCTS[0]);
+    fillForm(component);
+    component.form.controls.delivery.setValue('Express delivery');
+
+    expect(component.deliveryCost).toBe(12);
+    expect(component.orderTotal).toBe(PRODUCTS[0].price + 12);
+
+    component.submit();
+
+    expect(orderService.getOrder()?.deliveryCost).toBe(12);
+    expect(orderService.getOrder()?.total).toBe(PRODUCTS[0].price + 12);
+  });
+
   afterEach(() => {
     localStorage.removeItem('morrow-cart');
+    localStorage.removeItem('morrow-orders');
   });
 });
