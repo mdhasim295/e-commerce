@@ -4,6 +4,7 @@ import { Product } from './product.model';
 import { ProductService } from './product.service';
 import { CartService } from '../cart/cart.service';
 import { WishlistService } from '../wishlist/wishlist.service';
+import { CompareService } from '../compare/compare.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,6 +15,7 @@ export class ProductDetailComponent {
   product: Product | undefined;
   added = false;
   unavailable = false;
+  compareLimitReached = false;
 
   constructor(
     route: ActivatedRoute,
@@ -21,6 +23,7 @@ export class ProductDetailComponent {
     private readonly cartService: CartService,
     private readonly router: Router,
     public readonly wishlistService: WishlistService,
+    public readonly compareService: CompareService,
   ) {
     const id = Number(route.snapshot.paramMap.get('id'));
     this.product = productService.getProduct(id);
@@ -40,5 +43,15 @@ export class ProductDetailComponent {
 
   toggleWishlist(): void {
     if (this.product) this.wishlistService.toggle(this.product);
+  }
+
+  toggleCompare(): void {
+    if (!this.product) return;
+    if (this.compareService.has(this.product.id)) {
+      this.compareService.remove(this.product.id);
+      this.compareLimitReached = false;
+      return;
+    }
+    this.compareLimitReached = !this.compareService.add(this.product);
   }
 }

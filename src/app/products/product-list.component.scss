@@ -186,6 +186,25 @@ h2 a {
   transition: 0.2s ease;
   width: 100%;
 }
+.compare-button {
+  background: transparent;
+  border: 0;
+  color: #5f6c65;
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  font-size: 11px;
+  margin: 11px auto 0;
+  padding: 3px;
+}
+.compare-button.selected {
+  color: #b05b3b;
+}
+.compare-feedback {
+  color: #b05b3b;
+  font-size: 13px;
+  margin: 18px 0 0;
+}
 .add-button:hover {
   background: #18352d;
   color: #f7f6f1;

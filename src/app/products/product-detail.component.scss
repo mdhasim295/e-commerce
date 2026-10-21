@@ -63,6 +63,21 @@ h1 {
   font: inherit;
   padding: 0;
 }
+.compare-link {
+  background: transparent;
+  border: 0;
+  color: #5f6c65;
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  font-size: 12px;
+  margin-top: 12px;
+  padding: 0;
+}
+.compare-feedback {
+  color: #b05b3b;
+  font-size: 12px;
+}
 .description {
   color: #5f6c65;
   font-size: 17px;

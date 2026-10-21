@@ -26,6 +26,16 @@
             : "&#9825; Save to wishlist"
         }}
       </button>
+      <button class="compare-link" (click)="toggleCompare()">
+        {{
+          compareService.has(product.id)
+            ? "Remove from compare"
+            : "Add to compare"
+        }}
+      </button>
+      <p class="compare-feedback" *ngIf="compareLimitReached" role="status">
+        Compare up to 3 pieces at a time. Remove one to add another.
+      </p>
       <p class="description">{{ product.description }}</p>
       <div class="rating">
         &#9733; {{ product.rating }} <span>Thoughtfully reviewed</span>

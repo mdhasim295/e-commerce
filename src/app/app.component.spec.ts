@@ -2,13 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { CartService } from './cart/cart.service';
+import { CompareService } from './compare/compare.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [AppComponent],
-      providers: [CartService],
+      providers: [CartService, CompareService],
     }).compileComponents();
   });
 

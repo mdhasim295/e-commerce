@@ -12,6 +12,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { OrdersComponent } from './orders/orders.component';
+import { CompareComponent } from './compare/compare.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { OrdersComponent } from './orders/orders.component';
     OrderConfirmationComponent,
     WishlistComponent,
     OrdersComponent,
+    CompareComponent,
   ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
   providers: [],

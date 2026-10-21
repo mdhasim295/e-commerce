@@ -6,6 +6,7 @@ import { PRODUCTS } from './product.data';
 import { ProductDetailComponent } from './product-detail.component';
 import { ProductService } from './product.service';
 import { WishlistService } from '../wishlist/wishlist.service';
+import { CompareService } from '../compare/compare.service';
 
 describe('ProductDetailComponent', () => {
   let router: jasmine.SpyObj<Router>;
@@ -22,6 +23,7 @@ describe('ProductDetailComponent', () => {
         ProductService,
         CartService,
         WishlistService,
+        CompareService,
         { provide: Router, useValue: router },
         {
           provide: ActivatedRoute,
@@ -73,7 +75,16 @@ describe('ProductDetailComponent', () => {
     expect(component.wishlistService.has(PRODUCTS[0].id)).toBeFalse();
   });
 
+  it('adds the product to comparison', async () => {
+    const component = await createComponent(String(PRODUCTS[0].id));
+
+    component.toggleCompare();
+
+    expect(component.compareService.has(PRODUCTS[0].id)).toBeTrue();
+  });
+
   afterEach(() => {
     localStorage.removeItem('morrow-cart');
+    localStorage.removeItem('morrow-compare');
   });
 });

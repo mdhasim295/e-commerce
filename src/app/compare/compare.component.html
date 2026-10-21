@@ -1,0 +1,78 @@
+<main class="compare-page">
+  <p class="eyebrow">Choose with confidence</p>
+  <h1>Compare pieces<span>.</span></h1>
+  <p class="intro-copy">See the details side by side to find the right fit.</p>
+
+  <section
+    class="comparison"
+    *ngIf="compareService.products$ | async as products"
+  >
+    <div class="comparison-table" *ngIf="products.length; else emptyCompare">
+      <div class="comparison-row label-row">
+        <strong>Details</strong>
+        <div *ngFor="let product of products" class="product-heading">
+          <a [routerLink]="['/product', product.id]">
+            <img [src]="product.image" [alt]="product.name" />
+            <span>{{ product.name }}</span>
+          </a>
+          <button
+            class="remove-button"
+            (click)="compareService.remove(product.id)"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <div class="comparison-row">
+        <strong>Price</strong>
+        <span *ngFor="let product of products">${{ product.price }}</span>
+      </div>
+      <div class="comparison-row">
+        <strong>Rating</strong>
+        <span *ngFor="let product of products"
+          >&#9733; {{ product.rating }} / 5</span
+        >
+      </div>
+      <div class="comparison-row">
+        <strong>Category</strong>
+        <span *ngFor="let product of products">{{ product.category }}</span>
+      </div>
+      <div class="comparison-row">
+        <strong>Availability</strong>
+        <span
+          *ngFor="let product of products"
+          [class.out-of-stock]="product.stock === 0"
+        >
+          {{ product.stock > 0 ? product.stock + " in stock" : "Out of stock" }}
+        </span>
+      </div>
+      <div class="comparison-row description-row">
+        <strong>About</strong>
+        <span *ngFor="let product of products">{{ product.description }}</span>
+      </div>
+      <div class="comparison-row actions-row">
+        <span></span>
+        <button
+          *ngFor="let product of products"
+          class="add-button"
+          [disabled]="product.stock === 0"
+          (click)="addToCart(product)"
+        >
+          {{
+            product.stock === 0
+              ? "Unavailable"
+              : addedProductId === product.id
+                ? "Added to bag"
+                : "Add to bag"
+          }}
+        </button>
+      </div>
+    </div>
+    <ng-template #emptyCompare>
+      <section class="empty-compare">
+        <p>No products to compare yet.</p>
+        <a routerLink="/">Explore the collection &#8594;</a>
+      </section>
+    </ng-template>
+  </section>
+</main>

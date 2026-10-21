@@ -6,6 +6,7 @@ import { PRODUCTS } from './product.data';
 import { ProductListComponent } from './product-list.component';
 import { ProductService } from './product.service';
 import { WishlistService } from '../wishlist/wishlist.service';
+import { CompareService } from '../compare/compare.service';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -16,7 +17,7 @@ describe('ProductListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule],
       declarations: [ProductListComponent],
-      providers: [ProductService, CartService, WishlistService],
+      providers: [ProductService, CartService, WishlistService, CompareService],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProductListComponent);
@@ -68,6 +69,19 @@ describe('ProductListComponent', () => {
     expect(component.wishlistService.has(PRODUCTS[0].id)).toBeFalse();
   });
 
+  it('adds products to comparison and enforces the three-product limit', () => {
+    component.toggleCompare(PRODUCTS[0]);
+    component.toggleCompare(PRODUCTS[1]);
+    component.toggleCompare(PRODUCTS[2]);
+    component.toggleCompare(PRODUCTS[3]);
+
+    expect(component.compareService.getCount()).toBe(3);
+    expect(component.compareLimitReached).toBeTrue();
+
+    component.toggleCompare(PRODUCTS[0]);
+    expect(component.compareService.has(PRODUCTS[0].id)).toBeFalse();
+  });
+
   it('adds a product to the cart and clears feedback after a moment', fakeAsync(() => {
     component.addToCart(PRODUCTS[0]);
 
@@ -90,5 +104,6 @@ describe('ProductListComponent', () => {
 
   afterEach(() => {
     localStorage.removeItem('morrow-cart');
+    localStorage.removeItem('morrow-compare');
   });
 });

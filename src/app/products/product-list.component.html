@@ -38,6 +38,10 @@
     >
   </section>
 
+  <p class="compare-feedback" *ngIf="compareLimitReached" role="status">
+    Compare up to 3 pieces at a time. Remove one to add another.
+  </p>
+
   <section class="product-grid" aria-live="polite">
     <article class="product-card" *ngFor="let product of filteredProducts">
       <a class="product-image" [routerLink]="['/product', product.id]">
@@ -77,6 +81,13 @@
               : "In stock"
         }}
       </p>
+      <button
+        class="compare-button"
+        [class.selected]="compareService.has(product.id)"
+        (click)="toggleCompare(product)"
+      >
+        {{ compareService.has(product.id) ? "Remove from compare" : "Compare" }}
+      </button>
       <button
         class="add-button"
         [disabled]="product.stock === 0"

@@ -3,6 +3,7 @@ import { ProductService } from './product.service';
 import { Product } from './product.model';
 import { CartService } from '../cart/cart.service';
 import { WishlistService } from '../wishlist/wishlist.service';
+import { CompareService } from '../compare/compare.service';
 
 @Component({
   selector: 'app-product-list',
@@ -16,12 +17,14 @@ export class ProductListComponent {
   selectedCategory = 'All';
   addedProductId: number | null = null;
   unavailableProductId: number | null = null;
+  compareLimitReached = false;
   sortOption = 'featured';
 
   constructor(
     private readonly productService: ProductService,
     private readonly cartService: CartService,
     public readonly wishlistService: WishlistService,
+    public readonly compareService: CompareService,
   ) {
     this.products = productService.getProducts();
     this.categories = productService.getCategories();
@@ -58,5 +61,14 @@ export class ProductListComponent {
 
   toggleWishlist(product: Product): void {
     this.wishlistService.toggle(product);
+  }
+
+  toggleCompare(product: Product): void {
+    if (this.compareService.has(product.id)) {
+      this.compareService.remove(product.id);
+      this.compareLimitReached = false;
+      return;
+    }
+    this.compareLimitReached = !this.compareService.add(product);
   }
 }
