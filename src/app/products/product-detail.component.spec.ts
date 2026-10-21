@@ -7,6 +7,7 @@ import { ProductDetailComponent } from './product-detail.component';
 import { ProductService } from './product.service';
 import { WishlistService } from '../wishlist/wishlist.service';
 import { CompareService } from '../compare/compare.service';
+import { ToastService } from '../toast/toast.service';
 
 describe('ProductDetailComponent', () => {
   let router: jasmine.SpyObj<Router>;
@@ -24,6 +25,7 @@ describe('ProductDetailComponent', () => {
         CartService,
         WishlistService,
         CompareService,
+        ToastService,
         { provide: Router, useValue: router },
         {
           provide: ActivatedRoute,
@@ -48,12 +50,15 @@ describe('ProductDetailComponent', () => {
     expect(component.product).toBeUndefined();
   });
 
-  it('adds the product to the cart and shows confirmation', async () => {
+  it('adds the product to the cart and shows a toast', async () => {
     const component = await createComponent(String(PRODUCTS[0].id));
 
     component.addToCart();
 
     expect(cartService.getItemCount()).toBe(1);
+    expect(TestBed.inject(ToastService).getCurrent()?.message).toContain(
+      'added to your bag',
+    );
     expect(component.added).toBeTrue();
   });
 
@@ -70,6 +75,9 @@ describe('ProductDetailComponent', () => {
 
     component.toggleWishlist();
     expect(component.wishlistService.has(PRODUCTS[0].id)).toBeTrue();
+    expect(TestBed.inject(ToastService).getCurrent()?.message).toContain(
+      'saved for later',
+    );
 
     component.toggleWishlist();
     expect(component.wishlistService.has(PRODUCTS[0].id)).toBeFalse();
@@ -81,9 +89,13 @@ describe('ProductDetailComponent', () => {
     component.toggleCompare();
 
     expect(component.compareService.has(PRODUCTS[0].id)).toBeTrue();
+    expect(TestBed.inject(ToastService).getCurrent()?.message).toContain(
+      'added to comparison',
+    );
   });
 
   afterEach(() => {
+    TestBed.inject(ToastService).dismiss();
     localStorage.removeItem('morrow-cart');
     localStorage.removeItem('morrow-compare');
   });

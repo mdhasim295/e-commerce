@@ -13,6 +13,7 @@ import { OrderConfirmationComponent } from './order-confirmation/order-confirmat
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CompareComponent } from './compare/compare.component';
+import { ToastHostComponent } from './toast/toast-host.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { CompareComponent } from './compare/compare.component';
     WishlistComponent,
     OrdersComponent,
     CompareComponent,
+    ToastHostComponent,
   ],
   imports: [BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule],
   providers: [],

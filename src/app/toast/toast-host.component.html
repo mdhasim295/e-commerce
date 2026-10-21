@@ -1,0 +1,18 @@
+<div class="toast-viewport" *ngIf="toast$ | async as toast">
+  <div
+    class="toast"
+    [class]="'toast toast-' + toast.type"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    <span>{{ toast.message }}</span>
+    <button
+      type="button"
+      (click)="dismiss(toast.id)"
+      aria-label="Dismiss notification"
+    >
+      ×
+    </button>
+  </div>
+</div>

@@ -15,10 +15,7 @@
             <img [src]="product.image" [alt]="product.name" />
             <span>{{ product.name }}</span>
           </a>
-          <button
-            class="remove-button"
-            (click)="compareService.remove(product.id)"
-          >
+          <button class="remove-button" (click)="remove(product)">
             Remove
           </button>
         </div>
@@ -58,13 +55,7 @@
           [disabled]="product.stock === 0"
           (click)="addToCart(product)"
         >
-          {{
-            product.stock === 0
-              ? "Unavailable"
-              : addedProductId === product.id
-                ? "Added to bag"
-                : "Add to bag"
-          }}
+          {{ product.stock === 0 ? "Unavailable" : "Add to bag" }}
         </button>
       </div>
     </div>

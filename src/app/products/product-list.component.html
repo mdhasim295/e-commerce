@@ -38,10 +38,6 @@
     >
   </section>
 
-  <p class="compare-feedback" *ngIf="compareLimitReached" role="status">
-    Compare up to 3 pieces at a time. Remove one to add another.
-  </p>
-
   <section class="product-grid" aria-live="polite">
     <article class="product-card" *ngFor="let product of filteredProducts">
       <a class="product-image" [routerLink]="['/product', product.id]">
@@ -93,15 +89,7 @@
         [disabled]="product.stock === 0"
         (click)="addToCart(product)"
       >
-        {{
-          product.stock === 0
-            ? "Unavailable"
-            : unavailableProductId === product.id
-              ? "Limit reached"
-              : addedProductId === product.id
-                ? "Added to bag"
-                : "Add to bag"
-        }}
+        {{ product.stock === 0 ? "Unavailable" : "Add to bag" }}
       </button>
     </article>
   </section>

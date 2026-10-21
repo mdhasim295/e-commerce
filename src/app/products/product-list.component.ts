@@ -4,6 +4,7 @@ import { Product } from './product.model';
 import { CartService } from '../cart/cart.service';
 import { WishlistService } from '../wishlist/wishlist.service';
 import { CompareService } from '../compare/compare.service';
+import { ToastService } from '../toast/toast.service';
 
 @Component({
   selector: 'app-product-list',
@@ -15,9 +16,6 @@ export class ProductListComponent {
   categories: string[] = [];
   searchTerm = '';
   selectedCategory = 'All';
-  addedProductId: number | null = null;
-  unavailableProductId: number | null = null;
-  compareLimitReached = false;
   sortOption = 'featured';
 
   constructor(
@@ -25,6 +23,7 @@ export class ProductListComponent {
     private readonly cartService: CartService,
     public readonly wishlistService: WishlistService,
     public readonly compareService: CompareService,
+    private readonly toastService: ToastService,
   ) {
     this.products = productService.getProducts();
     this.categories = productService.getCategories();
@@ -51,24 +50,36 @@ export class ProductListComponent {
 
   addToCart(product: Product): void {
     if (!this.cartService.add(product)) {
-      this.unavailableProductId = product.id;
-      window.setTimeout(() => (this.unavailableProductId = null), 1200);
+      this.toastService.show('Stock limit reached for this piece.', 'error');
       return;
     }
-    this.addedProductId = product.id;
-    window.setTimeout(() => (this.addedProductId = null), 1200);
+    this.toastService.show(`${product.name} added to your bag.`, 'success');
   }
 
   toggleWishlist(product: Product): void {
+    const wasSaved = this.wishlistService.has(product.id);
     this.wishlistService.toggle(product);
+    this.toastService.show(
+      wasSaved
+        ? `${product.name} removed from saved pieces.`
+        : `${product.name} saved for later.`,
+      'success',
+    );
   }
 
   toggleCompare(product: Product): void {
     if (this.compareService.has(product.id)) {
       this.compareService.remove(product.id);
-      this.compareLimitReached = false;
+      this.toastService.show(
+        `${product.name} removed from comparison.`,
+        'info',
+      );
       return;
     }
-    this.compareLimitReached = !this.compareService.add(product);
+    if (!this.compareService.add(product)) {
+      this.toastService.show('Compare up to 3 pieces at a time.', 'error');
+      return;
+    }
+    this.toastService.show(`${product.name} added to comparison.`, 'success');
   }
 }

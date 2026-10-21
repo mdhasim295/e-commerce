@@ -1,4 +1,4 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService } from '../cart/cart.service';
@@ -7,6 +7,7 @@ import { ProductListComponent } from './product-list.component';
 import { ProductService } from './product.service';
 import { WishlistService } from '../wishlist/wishlist.service';
 import { CompareService } from '../compare/compare.service';
+import { ToastService } from '../toast/toast.service';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -17,7 +18,13 @@ describe('ProductListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule],
       declarations: [ProductListComponent],
-      providers: [ProductService, CartService, WishlistService, CompareService],
+      providers: [
+        ProductService,
+        CartService,
+        WishlistService,
+        CompareService,
+        ToastService,
+      ],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ProductListComponent);
@@ -76,33 +83,31 @@ describe('ProductListComponent', () => {
     component.toggleCompare(PRODUCTS[3]);
 
     expect(component.compareService.getCount()).toBe(3);
-    expect(component.compareLimitReached).toBeTrue();
-
+    expect(TestBed.inject(ToastService).getCurrent()?.message).toContain(
+      'up to 3',
+    );
     component.toggleCompare(PRODUCTS[0]);
     expect(component.compareService.has(PRODUCTS[0].id)).toBeFalse();
   });
 
-  it('adds a product to the cart and clears feedback after a moment', fakeAsync(() => {
+  it('adds a product to the cart and shows a toast', () => {
     component.addToCart(PRODUCTS[0]);
 
     expect(cartService.getItemCount()).toBe(1);
-    expect(component.addedProductId).toBe(PRODUCTS[0].id);
+    expect(TestBed.inject(ToastService).getCurrent()?.message).toContain(
+      'added to your bag',
+    );
+  });
 
-    tick(1200);
-    expect(component.addedProductId).toBeNull();
-  }));
-
-  it('does not add an out-of-stock product', fakeAsync(() => {
+  it('does not add an out-of-stock product and shows an error toast', () => {
     component.addToCart(PRODUCTS[2]);
 
     expect(cartService.getItemCount()).toBe(0);
-    expect(component.unavailableProductId).toBe(PRODUCTS[2].id);
-
-    tick(1200);
-    expect(component.unavailableProductId).toBeNull();
-  }));
+    expect(TestBed.inject(ToastService).getCurrent()?.type).toBe('error');
+  });
 
   afterEach(() => {
+    TestBed.inject(ToastService).dismiss();
     localStorage.removeItem('morrow-cart');
     localStorage.removeItem('morrow-compare');
   });
